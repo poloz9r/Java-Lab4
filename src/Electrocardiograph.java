@@ -10,7 +10,6 @@ class Electrocardiograph extends MedicalDevice {
         double amplitude = Math.random() * 100;
         double rPeakInterval = Math.random() * 0.1;
 
-
         if (this.ecgResult.isEmpty()) {
             if (amplitude < 20) {
                 this.ecgResult = "Аритмия";
