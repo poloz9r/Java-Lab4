@@ -7,11 +7,22 @@ class Electrocardiograph extends MedicalDevice {
     }
 
     public void performECG() {
+        double amplitude = Math.random() * 100;
+        double rPeakInterval = Math.random() * 0.1;
+        double pWaveAmplitude = Math.random() * 50;
+        double qrsComplexInterval = Math.random() * 0.2;
 
-        String[] ecgResults = {"Нормальный ритм", "Аритмия", "Фибрилляция предсердий"};
-        int randomIndex = (int) (Math.random() * ecgResults.length);
-        this.ecgResult = ecgResults[randomIndex];
+        if (this.ecgResult.isEmpty()) {
+            if (amplitude < 20) {
+                this.ecgResult = "Аритмия";
+            } else if (rPeakInterval > 0.1) {
+                this.ecgResult = "Фибрилляция предсердий";
+            } else {
+                this.ecgResult = "Нормальный ритм";
+            }
+        }
     }
+
 
     @Override
     public void performTest() {
