@@ -9,8 +9,7 @@ class Electrocardiograph extends MedicalDevice {
     public void performECG() {
         double amplitude = Math.random() * 100;
         double rPeakInterval = Math.random() * 0.1;
-        double pWaveAmplitude = Math.random() * 50;
-        double qrsComplexInterval = Math.random() * 0.2;
+
 
         if (this.ecgResult.isEmpty()) {
             if (amplitude < 20) {
