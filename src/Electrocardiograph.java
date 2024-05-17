@@ -15,24 +15,27 @@ class Electrocardiograph extends MedicalDevice {
 
     public void performECG() {
         Random random = new Random();
-        double amplitude = random.nextDouble() * 50; // Генерация значения от 0 до 50 мВ
-        double rPeakInterval = random.nextDouble() * 0.2; // Генерация значения от 0 до 0.2 с
-
+        double amplitude = random.nextDouble() * (NORMAL_AMPLITUDE_UPPER_BOUND - NORMAL_AMPLITUDE_LOWER_BOUND) + NORMAL_AMPLITUDE_LOWER_BOUND;
+        double rPeakInterval = random.nextDouble() * (NORMAL_R_PEAK_INTERVAL_UPPER_BOUND - NORMAL_R_PEAK_INTERVAL_LOWER_BOUND) + NORMAL_R_PEAK_INTERVAL_LOWER_BOUND;
         System.out.println("Амплитуда: " + amplitude + " мВ");
         System.out.println("Интервал R-пика: " + rPeakInterval + " с");
 
         if (amplitude >= NORMAL_AMPLITUDE_LOWER_BOUND && amplitude <= NORMAL_AMPLITUDE_UPPER_BOUND &&
                 rPeakInterval >= NORMAL_R_PEAK_INTERVAL_LOWER_BOUND && rPeakInterval <= NORMAL_R_PEAK_INTERVAL_UPPER_BOUND) {
             this.ecgResult = "Нормальный ритм";
+            System.out.println("ЭКГ: Нормальный ритм.");
         } else {
             this.ecgResult = "Отклонение от нормы. Требуется внимание врача.";
+            System.out.println("Отклонение от нормы для ЭКГ: Требуется внимание врача.");
         }
     }
 
-
     @Override
     public void performTest() {
-        checkIfDeviceIsOn();
+        if (!isOn()) {
+            System.out.println("Устройство не включено. Включите устройство.");
+            return;
+        }
         performECG();
     }
 
@@ -41,3 +44,4 @@ class Electrocardiograph extends MedicalDevice {
         System.out.println("Результаты ЭКГ: " + ecgResult);
     }
 }
+
