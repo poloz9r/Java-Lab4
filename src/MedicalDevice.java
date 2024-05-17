@@ -1,4 +1,4 @@
-abstract class MedicalDevice {
+public abstract class MedicalDevice {
     private String manufacturer;
     private String model;
     private String serialNumber;
@@ -16,18 +16,7 @@ abstract class MedicalDevice {
         System.out.println(model + " включен.");
     }
 
-    public void turnOff() {
-        isOn = false;
-        System.out.println(model + " выключен.");
-    }
-
-    public void calibrate() {
-        System.out.println("Калибровка " + model);
-    }
-
     public abstract void performTest();
-
-    public abstract void displayTestResults();
 
     public String getManufacturer() {
         return manufacturer;
@@ -47,13 +36,6 @@ abstract class MedicalDevice {
 
     @Override
     public String toString() {
-        return "Модель: " + model + ", Производитель: " + manufacturer + ", Серийный номер: " + serialNumber;
-    }
-
-    protected void checkIfDeviceIsOn() {
-        if (!isOn) {
-            System.out.println("Ошибка: " + model + " не включен.");
-            throw new IllegalStateException(model + " не включен.");
-        }
+        return model + ", Manufacturer: " + manufacturer + ", Serial Number: " + serialNumber;
     }
 }
