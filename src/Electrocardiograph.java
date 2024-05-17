@@ -9,6 +9,8 @@ class Electrocardiograph extends MedicalDevice {
     public void performECG() {
         double amplitude = Math.random() * 100;
         double rPeakInterval = Math.random() * 0.1;
+        System.out.println("Амплитуда:" + amplitude);
+        System.out.println("Интервал R-пика" + rPeakInterval);
 
         if (this.ecgResult.isEmpty()) {
             if (amplitude < 20) {
@@ -24,11 +26,13 @@ class Electrocardiograph extends MedicalDevice {
 
     @Override
     public void performTest() {
+        checkIfDeviceIsOn();
         performECG();
     }
 
     @Override
     public void displayTestResults() {
+        checkIfDeviceIsOn();
         System.out.println("Результаты ЭКГ: " + ecgResult);
     }
 }

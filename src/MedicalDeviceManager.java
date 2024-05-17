@@ -6,9 +6,9 @@ public class MedicalDeviceManager {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        medicalDevices.add(new BloodPressureMonitor("Manufacturer1", "Model1", "SerialNumber1"));
-        medicalDevices.add(new Glucometer("Manufacturer2", "Model2", "SerialNumber2"));
-        medicalDevices.add(new Electrocardiograph("Manufacturer3", "Model3", "SerialNumber3"));
+        medicalDevices.add(new BloodPressureMonitor("ЗдоровьеТех", "Кровяной давлениемер", "A17489BB"));
+        medicalDevices.add(new Glucometer("ЗдравПром", "Глюкометр", "A1257TRY"));
+        medicalDevices.add(new Electrocardiograph("ЗдоровьеДевелопмент", "Электрокардиограф", "B987YY"));
 
         displayMenu();
     }
@@ -47,7 +47,7 @@ public class MedicalDeviceManager {
     private static void turnOnDevice() {
         System.out.println("Список доступных устройств:");
         for (int i = 0; i < medicalDevices.size(); i++) {
-            System.out.println(i + ". " + medicalDevices.get(i));
+            System.out.println(i + ". " + medicalDevices.get(i).toString());
         }
         System.out.println("Выберите устройство для включения:");
         int index = scanner.nextInt();
@@ -61,7 +61,7 @@ public class MedicalDeviceManager {
     private static void performTest() {
         System.out.println("Список доступных устройств:");
         for (int i = 0; i < medicalDevices.size(); i++) {
-            System.out.println(i + ". " + medicalDevices.get(i));
+            System.out.println(i + ". " + medicalDevices.get(i).toString());
         }
         System.out.println("Выберите устройство для проведения теста:");
         int index = scanner.nextInt();
@@ -75,7 +75,7 @@ public class MedicalDeviceManager {
     private static void displayTestResults() {
         System.out.println("Список доступных устройств:");
         for (int i = 0; i < medicalDevices.size(); i++) {
-            System.out.println(i + ". " + medicalDevices.get(i));
+            System.out.println(i + ". " + medicalDevices.get(i).toString());
         }
         System.out.println("Выберите устройство для вывода результатов теста:");
         int index = scanner.nextInt();

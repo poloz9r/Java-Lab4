@@ -44,4 +44,16 @@ abstract class MedicalDevice {
     public boolean isOn() {
         return isOn;
     }
+
+    @Override
+    public String toString() {
+        return "Модель: " + model + ", Производитель: " + manufacturer + ", Серийный номер: " + serialNumber;
+    }
+
+    protected void checkIfDeviceIsOn() {
+        if (!isOn) {
+            System.out.println("Ошибка: " + model + " не включен.");
+            throw new IllegalStateException(model + " не включен.");
+        }
+    }
 }

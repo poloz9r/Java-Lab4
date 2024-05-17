@@ -9,15 +9,18 @@ class Glucometer extends MedicalDevice {
     public void measureGlucoseLevel() {
 
         this.glucoseLevel = (int) (Math.random() * 100);
+        System.out.println("Уровень глюкозы:" + glucoseLevel);
     }
 
     @Override
     public void performTest() {
+        checkIfDeviceIsOn();
         measureGlucoseLevel();
     }
 
     @Override
     public void displayTestResults() {
+        checkIfDeviceIsOn();
         System.out.println("Уровень глюкозы: " + glucoseLevel);
     }
 }
