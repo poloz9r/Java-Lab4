@@ -40,4 +40,10 @@ public class BloodPressureMonitor extends MedicalDevice {
             System.out.println("Артериальное давление находится в пределах нормы.");
         }
     }
+
+    @Override
+    public void displayTestResults() {
+        System.out.println("Систолическое давление: " + systolicPressure + " мм рт.ст.");
+        System.out.println("Диастолическое давление: " + diastolicPressure + " мм рт.ст.");
+    }
 }

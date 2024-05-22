@@ -7,9 +7,9 @@ public class MedicalDeviceManager {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        medicalDevices.add(new BloodPressureMonitor("Manufacturer1", "Model1", "SerialNumber1"));
-        medicalDevices.add(new Glucometer("Manufacturer2", "Model2", "SerialNumber2"));
-        medicalDevices.add(new Electrocardiograph("Manufacturer3", "Model3", "SerialNumber3"));
+        medicalDevices.add(new BloodPressureMonitor("ЗдоровьеТех", "Кровяной давлениемер", "A17489BB"));
+        medicalDevices.add(new Glucometer("ЗдравПром", "Глюкометр", "A1257TRY"));
+        medicalDevices.add(new Electrocardiograph("ЗдоровьеДевелопмент", "Электрокардиограф", "B987YY"));
 
         displayMenu();
     }
@@ -20,8 +20,9 @@ public class MedicalDeviceManager {
             System.out.println("Меню:");
             System.out.println("1. Включить устройство");
             System.out.println("2. Выполнить тест");
-            System.out.println("3. Вывести результаты теста");
-            System.out.println("4. Выйти");
+            System.out.println("3. Сохранить результаты теста");
+            System.out.println("4. Вывести результаты теста");
+            System.out.println("5. Выйти");
 
             System.out.print("Выберите действие: ");
             int choice = scanner.nextInt();
@@ -34,9 +35,12 @@ public class MedicalDeviceManager {
                     performTest();
                     break;
                 case 3:
-                    displayTestResults();
+                    saveTestResults();
                     break;
                 case 4:
+                    displaySavedTestResults();
+                    break;
+                case 5:
                     exit = true;
                     break;
                 default:
@@ -67,18 +71,33 @@ public class MedicalDeviceManager {
         System.out.println("Выберите устройство для проведения теста:");
         int index = scanner.nextInt();
         if (index >= 0 && index < medicalDevices.size()) {
-            MedicalDevice device = medicalDevices.get(index);
-            device.performTest();
-            testResults.add(new TestResult(device.getModel(), device.getManufacturer(), device.getSerialNumber(), device.isOn()));
+            medicalDevices.get(index).performTest();
         } else {
             System.out.println("Некорректный индекс.");
         }
     }
 
-    private static void displayTestResults() {
-        System.out.println("Список результатов тестов:");
-        for (int i = 0; i < testResults.size(); i++) {
-            System.out.println(i + ". " + testResults.get(i));
+    private static void saveTestResults() {
+        System.out.println("Список доступных устройств:");
+        for (int i = 0; i < medicalDevices.size(); i++) {
+            System.out.println(i + ". " + medicalDevices.get(i));
+        }
+        System.out.println("Выберите устройство для сохранения результатов теста:");
+        int index = scanner.nextInt();
+        if (index >= 0 && index < medicalDevices.size()) {
+            MedicalDevice device = medicalDevices.get(index);
+            TestResult result = new TestResult(device.getModel(), device.getManufacturer(), device.getSerialNumber(), device.isOn());
+            testResults.add(result);
+            System.out.println("Результаты теста сохранены.");
+        } else {
+            System.out.println("Некорректный индекс.");
+        }
+    }
+
+    private static void displaySavedTestResults() {
+        System.out.println("Сохраненные результаты тестов:");
+        for (TestResult result : testResults) {
+            result.displayTestResults();
         }
     }
 }

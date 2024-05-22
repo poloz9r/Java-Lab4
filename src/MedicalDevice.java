@@ -1,4 +1,4 @@
-public abstract class MedicalDevice {
+abstract class MedicalDevice {
     private String manufacturer;
     private String model;
     private String serialNumber;
@@ -16,7 +16,18 @@ public abstract class MedicalDevice {
         System.out.println(model + " включен.");
     }
 
+    public void turnOff() {
+        isOn = false;
+        System.out.println(model + " выключен.");
+    }
+
+    public void calibrate() {
+        System.out.println("Калибровка " + model);
+    }
+
     public abstract void performTest();
+
+    public abstract void displayTestResults();
 
     public String getManufacturer() {
         return manufacturer;
@@ -32,10 +43,5 @@ public abstract class MedicalDevice {
 
     public boolean isOn() {
         return isOn;
-    }
-
-    @Override
-    public String toString() {
-        return model + ", Manufacturer: " + manufacturer + ", Serial Number: " + serialNumber;
     }
 }

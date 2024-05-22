@@ -11,8 +11,6 @@ public class TestResult {
         this.isDeviceOn = isDeviceOn;
     }
 
-
-
     public void displayTestResults() {
         System.out.println("Результаты теста для устройства:");
         System.out.println("Модель: " + model);

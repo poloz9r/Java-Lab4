@@ -9,7 +9,7 @@ public class Glucometer extends MedicalDevice {
     }
 
     public void measureGlucoseLevel() {
-        this.glucoseLevel = (int) (Math.random() * 100);
+        this.glucoseLevel = (int) (Math.random() * 160 + 60); // Значение от 60 до 220 для большей вариативности
         System.out.println("Уровень глюкозы: " + glucoseLevel);
     }
 
@@ -29,5 +29,10 @@ public class Glucometer extends MedicalDevice {
         } else {
             System.out.println("Уровень глюкозы находится в пределах нормы.");
         }
+    }
+
+    @Override
+    public void displayTestResults() {
+        System.out.println("Уровень глюкозы: " + glucoseLevel);
     }
 }
