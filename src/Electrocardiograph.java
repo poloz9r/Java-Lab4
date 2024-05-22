@@ -1,5 +1,7 @@
 public class Electrocardiograph extends MedicalDevice {
     private String ecgResult;
+    private double amplitude;
+    private double rPeakInterval;
 
     public Electrocardiograph(String manufacturer, String model, String serialNumber) {
         super(manufacturer, model, serialNumber);
@@ -7,17 +9,17 @@ public class Electrocardiograph extends MedicalDevice {
     }
 
     public void performECG() {
-        double amplitude = Math.random() * 100;
-        double rPeakInterval = Math.random();
+        this.amplitude = Math.random() * 100;
+        this.rPeakInterval = Math.random() * 0.2;
         System.out.println("Амплитуда: " + amplitude);
         System.out.println("Интервал R-пика: " + rPeakInterval);
 
         if (amplitude < 20) {
-            this.ecgResult = "Аритмия";
+            ecgResult = "Аритмия";
         } else if (rPeakInterval > 0.1) {
-            this.ecgResult = "Фибрилляция предсердий";
+            ecgResult = "Фибрилляция предсердий";
         } else {
-            this.ecgResult = "Нормальный ритм";
+            ecgResult = "Нормальный ритм";
         }
     }
 
@@ -27,12 +29,17 @@ public class Electrocardiograph extends MedicalDevice {
             System.out.println("Устройство не включено. Включите устройство перед выполнением теста.");
         } else {
             performECG();
-            displayTestResults();
+            System.out.println("Результаты ЭКГ: " + ecgResult);
         }
     }
 
     @Override
     public void displayTestResults() {
         System.out.println("Результаты ЭКГ: " + ecgResult);
+    }
+
+    @Override
+    public String toString() {
+        return "Электрокардиограф (Производитель: " + getManufacturer() + ", Серийный номер: " + getSerialNumber() + ")";
     }
 }

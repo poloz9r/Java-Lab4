@@ -15,8 +15,8 @@ public class BloodPressureMonitor extends MedicalDevice {
 
     public void measureBloodPressure() {
         Random random = new Random();
-        this.systolicPressure = random.nextInt(NORMAL_SYSTOLIC_PRESSURE_UPPER_BOUND - NORMAL_SYSTOLIC_PRESSURE_LOWER_BOUND + 1) + NORMAL_SYSTOLIC_PRESSURE_LOWER_BOUND;
-        this.diastolicPressure = random.nextInt(NORMAL_DIASTOLIC_PRESSURE_UPPER_BOUND - NORMAL_DIASTOLIC_PRESSURE_LOWER_BOUND + 1) + NORMAL_DIASTOLIC_PRESSURE_LOWER_BOUND;
+        this.systolicPressure = random.nextInt(181) + 60; // Генерация случайного значения в диапазоне от 60 до 240
+        this.diastolicPressure = random.nextInt(121) + 40; // Генерация случайного значения в диапазоне от 40 до 160
         System.out.println("Измерение артериального давления...");
         System.out.println("Систолическое давление: " + systolicPressure + " мм рт.ст.");
         System.out.println("Диастолическое давление: " + diastolicPressure + " мм рт.ст.");
@@ -45,5 +45,10 @@ public class BloodPressureMonitor extends MedicalDevice {
     public void displayTestResults() {
         System.out.println("Систолическое давление: " + systolicPressure + " мм рт.ст.");
         System.out.println("Диастолическое давление: " + diastolicPressure + " мм рт.ст.");
+    }
+
+    @Override
+    public String toString() {
+        return "Кровяной давлениемер (Производитель: " + getManufacturer() + ", Серийный номер: " + getSerialNumber() + ")";
     }
 }

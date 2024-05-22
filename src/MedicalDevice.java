@@ -1,4 +1,4 @@
-abstract class MedicalDevice {
+public abstract class MedicalDevice {
     private String manufacturer;
     private String model;
     private String serialNumber;
@@ -43,5 +43,10 @@ abstract class MedicalDevice {
 
     public boolean isOn() {
         return isOn;
+    }
+
+    @Override
+    public String toString() {
+        return model + " (Производитель: " + manufacturer + ", Серийный номер: " + serialNumber + ")";
     }
 }
