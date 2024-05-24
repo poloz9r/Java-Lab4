@@ -1,7 +1,7 @@
-public class Glucometer extends MedicalDevice {
-    private static final int NORMAL_GLUCOSE_LEVEL_LOWER_BOUND = 70;
-    private static final int NORMAL_GLUCOSE_LEVEL_UPPER_BOUND = 140;
+class Glucometer extends MedicalDevice {
     private int glucoseLevel;
+    private static final int NORMAL_GLUCOSE_MIN = 70;
+    private static final int NORMAL_GLUCOSE_MAX = 140;
 
     public Glucometer(String manufacturer, String model, String serialNumber) {
         super(manufacturer, model, serialNumber);
@@ -9,35 +9,26 @@ public class Glucometer extends MedicalDevice {
     }
 
     public void measureGlucoseLevel() {
-        this.glucoseLevel = (int) (Math.random() * 161) + 60; // Генерация случайного уровня глюкозы в диапазоне от 60 до 220
+        this.glucoseLevel = 50 + (int) (Math.random() * 200); // Random glucose level between 50 and 250
         System.out.println("Уровень глюкозы: " + glucoseLevel);
     }
 
     @Override
     public void performTest() {
         if (!isOn()) {
-            System.out.println("Устройство не включено. Включите устройство перед выполнением теста.");
-        } else {
-            measureGlucoseLevel();
-            printDeviationMessage();
+            System.out.println(getModel() + " выключен. Включите устройство перед тестированием.");
+            return;
         }
-    }
-
-    private void printDeviationMessage() {
-        if (glucoseLevel < NORMAL_GLUCOSE_LEVEL_LOWER_BOUND || glucoseLevel > NORMAL_GLUCOSE_LEVEL_UPPER_BOUND) {
-            System.out.println("Обнаружены отклонения от нормы в уровне глюкозы.");
-        } else {
-            System.out.println("Уровень глюкозы в пределах нормы.");
-        }
+        measureGlucoseLevel();
+        String verdict = (glucoseLevel >= NORMAL_GLUCOSE_MIN && glucoseLevel <= NORMAL_GLUCOSE_MAX) ?
+                "Уровень глюкозы в норме" : "Отклонение уровня глюкозы";
+        MedicalDeviceManager.addTestResult(new TestResult(getModel(), getManufacturer(), getSerialNumber(), "Измерение уровня глюкозы",
+                "Уровень глюкозы: " + glucoseLevel, verdict));
     }
 
     @Override
     public void displayTestResults() {
+        System.out.println("Результаты измерения уровня глюкозы:");
         System.out.println("Уровень глюкозы: " + glucoseLevel);
-    }
-
-    @Override
-    public String toString() {
-        return "Глюкометр (Производитель: " + getManufacturer() + ", Серийный номер: " + getSerialNumber() + ")";
     }
 }

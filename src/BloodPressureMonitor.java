@@ -1,54 +1,42 @@
 import java.util.Random;
 
-public class BloodPressureMonitor extends MedicalDevice {
-    private static final int NORMAL_SYSTOLIC_PRESSURE_LOWER_BOUND = 90;
-    private static final int NORMAL_SYSTOLIC_PRESSURE_UPPER_BOUND = 130;
-    private static final int NORMAL_DIASTOLIC_PRESSURE_LOWER_BOUND = 60;
-    private static final int NORMAL_DIASTOLIC_PRESSURE_UPPER_BOUND = 90;
-
+class BloodPressureMonitor extends MedicalDevice {
     private int systolicPressure;
     private int diastolicPressure;
+    private static final int NORMAL_SYSTOLIC_MIN = 90;
+    private static final int NORMAL_SYSTOLIC_MAX = 120;
+    private static final int NORMAL_DIASTOLIC_MIN = 60;
+    private static final int NORMAL_DIASTOLIC_MAX = 80;
 
     public BloodPressureMonitor(String manufacturer, String model, String serialNumber) {
         super(manufacturer, model, serialNumber);
     }
 
     public void measureBloodPressure() {
-        Random random = new Random();
-        this.systolicPressure = random.nextInt(181) + 60; // Генерация случайного значения в диапазоне от 60 до 240
-        this.diastolicPressure = random.nextInt(121) + 40; // Генерация случайного значения в диапазоне от 40 до 160
-        System.out.println("Измерение артериального давления...");
-        System.out.println("Систолическое давление: " + systolicPressure + " мм рт.ст.");
-        System.out.println("Диастолическое давление: " + diastolicPressure + " мм рт.ст.");
+        this.systolicPressure = 90 + (int) (Math.random() * 60); // Random systolic pressure between 90 and 150
+        this.diastolicPressure = 60 + (int) (Math.random() * 40); // Random diastolic pressure between 60 and 100
+        System.out.println("Систолическое давление: " + systolicPressure);
+        System.out.println("Диастолическое давление: " + diastolicPressure);
     }
 
     @Override
     public void performTest() {
         if (!isOn()) {
-            System.out.println("Устройство не включено. Включите устройство перед выполнением теста.");
-        } else {
-            measureBloodPressure();
-            printDeviationMessage();
+            System.out.println(getModel() + " выключен. Включите устройство перед тестированием.");
+            return;
         }
-    }
-
-    private void printDeviationMessage() {
-        if (systolicPressure < NORMAL_SYSTOLIC_PRESSURE_LOWER_BOUND || systolicPressure > NORMAL_SYSTOLIC_PRESSURE_UPPER_BOUND ||
-                diastolicPressure < NORMAL_DIASTOLIC_PRESSURE_LOWER_BOUND || diastolicPressure > NORMAL_DIASTOLIC_PRESSURE_UPPER_BOUND) {
-            System.out.println("Обнаружены отклонения от нормы в артериальном давлении.");
-        } else {
-            System.out.println("Артериальное давление находится в пределах нормы.");
-        }
+        measureBloodPressure();
+        String verdict = (systolicPressure >= NORMAL_SYSTOLIC_MIN && systolicPressure <= NORMAL_SYSTOLIC_MAX &&
+                diastolicPressure >= NORMAL_DIASTOLIC_MIN && diastolicPressure <= NORMAL_DIASTOLIC_MAX) ?
+                "Давление в норме" : "Отклонение от нормы";
+        MedicalDeviceManager.addTestResult(new TestResult(getModel(), getManufacturer(), getSerialNumber(), "Измерение давления",
+                "Систолическое: " + systolicPressure + ", Диастолическое: " + diastolicPressure, verdict));
     }
 
     @Override
     public void displayTestResults() {
-        System.out.println("Систолическое давление: " + systolicPressure + " мм рт.ст.");
-        System.out.println("Диастолическое давление: " + diastolicPressure + " мм рт.ст.");
-    }
-
-    @Override
-    public String toString() {
-        return "Кровяной давлениемер (Производитель: " + getManufacturer() + ", Серийный номер: " + getSerialNumber() + ")";
+        System.out.println("Результаты измерения давления:");
+        System.out.println("Систолическое давление: " + systolicPressure);
+        System.out.println("Диастолическое давление: " + diastolicPressure);
     }
 }

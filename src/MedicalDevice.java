@@ -1,4 +1,6 @@
-public abstract class MedicalDevice {
+import java.io.Serializable;
+
+public abstract class MedicalDevice implements Serializable {
     private String manufacturer;
     private String model;
     private String serialNumber;
@@ -33,6 +35,10 @@ public abstract class MedicalDevice {
         return manufacturer;
     }
 
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
     public String getModel() {
         return model;
     }
@@ -41,12 +47,38 @@ public abstract class MedicalDevice {
         return serialNumber;
     }
 
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
     public boolean isOn() {
         return isOn;
     }
 
     @Override
     public String toString() {
-        return model + " (Производитель: " + manufacturer + ", Серийный номер: " + serialNumber + ")";
+        return "Устройство: " + model + ", Производитель: " + manufacturer + ", Серийный номер: " + serialNumber;
+    }
+
+    public String toFileString() {
+        return model + ", " + manufacturer + ", " + serialNumber;
+    }
+
+    public static MedicalDevice fromString(String str) {
+        String[] parts = str.split(", ");
+        String model = parts[0];
+        String manufacturer = parts[1];
+        String serialNumber = parts[2];
+
+        switch (model) {
+            case "Кровяной давлениемер":
+                return new BloodPressureMonitor(manufacturer, model, serialNumber);
+            case "Глюкометр":
+                return new Glucometer(manufacturer, model, serialNumber);
+            case "Электрокардиограф":
+                return new Electrocardiograph(manufacturer, model, serialNumber);
+            default:
+                throw new IllegalArgumentException("Неизвестный тип устройства: " + model);
+        }
     }
 }

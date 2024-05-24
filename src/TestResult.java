@@ -1,26 +1,35 @@
 import java.io.Serializable;
 
 public class TestResult implements Serializable {
-    private String model;
+    private String deviceModel;
     private String manufacturer;
     private String serialNumber;
-    private boolean isDeviceOn;
+    private String testType;
     private String testResults;
+    private String verdict;
 
-    public TestResult(String model, String manufacturer, String serialNumber, boolean isDeviceOn, String testResults) {
-        this.model = model;
+    public TestResult(String deviceModel, String manufacturer, String serialNumber, String testType, String testResults, String verdict) {
+        this.deviceModel = deviceModel;
         this.manufacturer = manufacturer;
         this.serialNumber = serialNumber;
-        this.isDeviceOn = isDeviceOn;
+        this.testType = testType;
         this.testResults = testResults;
+        this.verdict = verdict;
     }
 
-    public void displayTestResults() {
-        System.out.println("Результаты теста для устройства:");
-        System.out.println("Модель: " + model);
-        System.out.println("Производитель: " + manufacturer);
-        System.out.println("Серийный номер: " + serialNumber);
-        System.out.println("Статус устройства: " + (isDeviceOn ? "Включено" : "Выключено"));
-        System.out.println("Результаты теста: " + testResults);
+    @Override
+    public String toString() {
+        return "Тип устройства: " + deviceModel + ", Производитель: " + manufacturer + ", Серийный номер: " + serialNumber + ", Тип теста: " + testType + ", Результат теста: " + testResults + ", Заключение: " + verdict;
+    }
+
+    public static TestResult fromString(String str) {
+        String[] parts = str.split(", ");
+        String deviceModel = parts[0].split(": ")[1];
+        String manufacturer = parts[1].split(": ")[1];
+        String serialNumber = parts[2].split(": ")[1];
+        String testType = parts[3].split(": ")[1];
+        String testResults = parts[4].split(": ")[1];
+        String verdict = parts[5].split(": ")[1];
+        return new TestResult(deviceModel, manufacturer, serialNumber, testType, testResults, verdict);
     }
 }
