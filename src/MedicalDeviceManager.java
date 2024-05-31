@@ -23,10 +23,12 @@ public class MedicalDeviceManager {
             System.out.println("2. Выполнить тест");
             System.out.println("3. Вывести результаты теста");
             System.out.println("4. Управление устройствами");
-            System.out.println("5. Выйти");
+            System.out.println("5. Вывести текущие устройства");
+            System.out.println("6. Выйти");
 
             System.out.print("Выберите действие: ");
             int choice = scanner.nextInt();
+            scanner.nextLine();  // Consume newline
 
             switch (choice) {
                 case 1:
@@ -42,6 +44,9 @@ public class MedicalDeviceManager {
                     manageDevices();
                     break;
                 case 5:
+                    displayCurrentDevices();
+                    break;
+                case 6:
                     exit = true;
                     break;
                 default:
@@ -59,6 +64,7 @@ public class MedicalDeviceManager {
         }
         System.out.println("Выберите устройство для включения:");
         int index = scanner.nextInt();
+        scanner.nextLine();  // Consume newline
         if (index >= 0 && index < medicalDevices.size()) {
             medicalDevices.get(index).turnOn();
         } else {
@@ -73,6 +79,7 @@ public class MedicalDeviceManager {
         }
         System.out.println("Выберите устройство для проведения теста:");
         int index = scanner.nextInt();
+        scanner.nextLine();  // Consume newline
         if (index >= 0 && index < medicalDevices.size()) {
             medicalDevices.get(index).performTest();
         } else {
@@ -83,6 +90,13 @@ public class MedicalDeviceManager {
     private static void displayTestResults() {
         for (TestResult result : testResults) {
             System.out.println(result);
+        }
+    }
+
+    private static void displayCurrentDevices() {
+        System.out.println("Текущие устройства:");
+        for (MedicalDevice device : medicalDevices) {
+            System.out.println(device);
         }
     }
 
@@ -144,6 +158,7 @@ public class MedicalDeviceManager {
         System.out.println("4. Вернуться в главное меню");
 
         int choice = scanner.nextInt();
+        scanner.nextLine();  // Consume newline
 
         switch (choice) {
             case 1:
@@ -182,8 +197,17 @@ public class MedicalDeviceManager {
         }
         System.out.println("Введите производителя: ");
         String manufacturer = scanner.nextLine();
-        System.out.println("Введите серийный номер: ");
-        String serialNumber = scanner.nextLine();
+
+        String serialNumber;
+        while (true) {
+            System.out.println("Введите серийный номер: ");
+            serialNumber = scanner.nextLine();
+            if (serialNumber.startsWith("-")) {
+                System.out.println("Ошибка: серийный номер не может быть отрицательным.");
+            } else {
+                break;
+            }
+        }
 
         switch (category) {
             case 1:
@@ -199,7 +223,6 @@ public class MedicalDeviceManager {
                 System.out.println("Некорректная категория.");
         }
     }
-
 
     private static void updateDevice() {
         System.out.println("Список доступных устройств:");
@@ -221,8 +244,17 @@ public class MedicalDeviceManager {
         }
         System.out.println("Введите нового производителя: ");
         String manufacturer = scanner.nextLine();
-        System.out.println("Введите новый серийный номер: ");
-        String serialNumber = scanner.nextLine();
+
+        String serialNumber;
+        while (true) {
+            System.out.println("Введите новый серийный номер: ");
+            serialNumber = scanner.nextLine();
+            if (serialNumber.startsWith("-")) {
+                System.out.println("Ошибка: серийный номер не может быть отрицательным.");
+            } else {
+                break;
+            }
+        }
 
         MedicalDevice device = medicalDevices.get(index);
         device.setManufacturer(manufacturer);
@@ -230,24 +262,45 @@ public class MedicalDeviceManager {
     }
 
     private static void deleteDevice() {
+        if (medicalDevices.isEmpty()) {
+            System.out.println("Все устройства уже удалены.");
+            return;
+        }
+
         System.out.println("Список доступных устройств:");
         for (int i = 0; i < medicalDevices.size(); i++) {
             System.out.println(i + ". " + medicalDevices.get(i));
         }
-        System.out.println("Выберите устройство для удаления:");
+
+        System.out.print("Выберите устройство для удаления: ");
         int index = -1;
-        while (true) {
+        while (index < 0 || index >= medicalDevices.size()) {
+            System.out.print("Введите номер устройства: ");
             try {
                 index = Integer.parseInt(scanner.nextLine());
                 if (index < 0 || index >= medicalDevices.size()) {
                     throw new NumberFormatException();
                 }
-                break;
             } catch (NumberFormatException e) {
-                System.out.println("Ошибка: введите корректный индекс устройства.");
+                System.out.println("Ошибка: введите корректный номер устройства.");
             }
         }
 
-        medicalDevices.remove(index);
+        MedicalDevice removedDevice = medicalDevices.remove(index);
+        System.out.println("Устройство " + removedDevice.getModel() + " удалено.");
     }
+
+
+    private static void removeTestResultsForDevice(MedicalDevice device) {
+        ArrayList<TestResult> resultsToRemove = new ArrayList<>();
+        for (TestResult result : testResults) {
+            if (result.getManufacturer().equals(device.getManufacturer()) &&
+                    result.getSerialNumber().equals(device.getSerialNumber())) {
+                resultsToRemove.add(result);
+            }
+        }
+        testResults.removeAll(resultsToRemove);
+    }
+
 }
+
