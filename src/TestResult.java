@@ -17,6 +17,14 @@ public class TestResult implements Serializable {
         this.verdict = verdict;
     }
 
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
     @Override
     public String toString() {
         return "Тип устройства: " + deviceModel + ", Производитель: " + manufacturer + ", Серийный номер: " + serialNumber + ", Тип теста: " + testType + ", Результат теста: " + testResults + ", Заключение: " + verdict;
