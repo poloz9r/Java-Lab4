@@ -12,6 +12,17 @@ class BloodPressureMonitor extends MedicalDevice {
         super(manufacturer, model, serialNumber);
     }
 
+    @Override
+    public String getManufacturer() {
+        return super.getManufacturer();
+    }
+
+    // Вместо получения напрямую, используем метод getSerialNumber()
+    @Override
+    public String getSerialNumber() {
+        return super.getSerialNumber();
+    }
+
     public void measureBloodPressure() {
         this.systolicPressure = 90 + (int) (Math.random() * 60); // Random systolic pressure between 90 and 150
         this.diastolicPressure = 60 + (int) (Math.random() * 40); // Random diastolic pressure between 60 and 100
@@ -39,4 +50,6 @@ class BloodPressureMonitor extends MedicalDevice {
         System.out.println("Систолическое давление: " + systolicPressure);
         System.out.println("Диастолическое давление: " + diastolicPressure);
     }
+
+
 }
